@@ -1,0 +1,98 @@
+Azure Application Gateway Hostname Checker - Usage Examples
+============================================================
+
+=== Command Line Usage Examples ===
+
+1. List all available subscriptions:
+   python azure_gtw_checker.py --list-subscriptions
+
+2. Get all hostnames from all Application Gateways:
+   python azure_gtw_checker.py --subscription-id YOUR_SUBSCRIPTION_ID --all-hostnames
+
+3. Search for a specific hostname:
+   python azure_gtw_checker.py --subscription-id YOUR_SUBSCRIPTION_ID --hostname example.com
+
+4. Get results in JSON format:
+   python azure_gtw_checker.py --subscription-id YOUR_SUBSCRIPTION_ID --all-hostnames --output-format json
+
+5. Enable verbose logging:
+   python azure_gtw_checker.py --subscription-id YOUR_SUBSCRIPTION_ID --hostname example.com --verbose
+
+=== Programmatic Usage Example ===
+1. Getting all available subscriptions...
+Found 3 subscriptions
+   - Production Subscription (12345678-1234-1234-1234-123456789012)
+   - Development Subscription (87654321-4321-4321-4321-210987654321)
+   - Testing Subscription (11111111-2222-3333-4444-555555555555)
+
+2. Getting all Application Gateways...
+Found 5 Application Gateways
+   - prod-app-gateway in prod-rg
+   - dev-app-gateway in dev-rg
+   - test-app-gateway in test-rg
+
+3. Getting all hostnames...
+   Gateway 'prod-app-gateway': 8 hostnames
+     - api.example.com
+     - www.example.com
+     - admin.example.com
+   Gateway 'dev-app-gateway': 3 hostnames
+     - dev-api.example.com
+     - dev-www.example.com
+     - staging.example.com
+
+4. Searching for specific hostname...
+Hostname 'api.example.com' found in 1 gateways
+   - Gateway: prod-app-gateway
+
+============================================================
+
+Example JSON Output (--output-format json --all-hostnames):
+{
+  "prod-app-gateway": [
+    "api.example.com",
+    "www.example.com",
+    "admin.example.com",
+    "portal.example.com",
+    "docs.example.com",
+    "status.example.com",
+    "cdn.example.com",
+    "media.example.com"
+  ],
+  "dev-app-gateway": [
+    "dev-api.example.com",
+    "dev-www.example.com",
+    "staging.example.com"
+  ],
+  "test-app-gateway": [
+    "test-api.example.com",
+    "qa.example.com"
+  ]
+}
+
+Example JSON Output (--output-format json --hostname api.example.com):
+[
+  {
+    "gateway_name": "prod-app-gateway",
+    "resource_group": "prod-rg",
+    "location": "eastus",
+    "found_hostname": "api.example.com",
+    "all_hostnames": [
+      "api.example.com",
+      "www.example.com",
+      "admin.example.com",
+      "portal.example.com",
+      "docs.example.com",
+      "status.example.com",
+      "cdn.example.com",
+      "media.example.com"
+    ]
+  }
+]
+
+============================================================
+Setup Instructions:
+1. Install dependencies: pip install -r requirements.txt
+2. Configure Azure authentication (Azure CLI login or environment variables)
+3. Replace 'your-subscription-id-here' with your actual subscription ID
+4. Run the script with your desired options
