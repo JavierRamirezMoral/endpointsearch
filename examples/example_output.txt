@@ -1,0 +1,6 @@
+Ingrese el hostname a buscar: ejemplo.com
+Ingrese el Subscription ID (o pulse Enter para usar AZURE_SUBSCRIPTION_ID env): xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+
+Resultados:
+✔ Encontrado en Application Gateway: app-gtw-prod (Resource Group: rg-prod)
+✔ Encontrado en Application Gateway: app-gtw-dr (Resource Group: rg-dr)
