@@ -1,5 +1,5 @@
 # endpointsearch
-# Azure GTW Hostname Checker
+#  AGREGAR EJEMPLO VISUAL, MEJORAR Y COMPLETAR ESTRUCTURA Y FORMATO
 
 ![Python](https://img.shields.io/badge/python-3.9%2B-blue)
 ![CI](https://github.com/JavierRamirezMoral/endpointsearch/actions/workflows/ci.yml/badge.svg)
