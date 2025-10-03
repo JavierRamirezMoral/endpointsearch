@@ -1,1 +1,11 @@
+azure-identity
+azure-mgmt-network
+azure-mgmt-resource
 
+# Development and CI tools
+pytest
+pytest-cov
+flake8
+black
+mypy
+pip-audit
