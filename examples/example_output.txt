@@ -1,6 +1,24 @@
-Ingrese el hostname a buscar: ejemplo.com
-Ingrese el Subscription ID (o pulse Enter para usar AZURE_SUBSCRIPTION_ID env): xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+🔎 Enter the endpoint to search (e.g., /myapi or api.mydomain.com): api.mydomain.com
 
-Resultados:
-✔ Encontrado en Application Gateway: app-gtw-prod (Resource Group: rg-prod)
-✔ Encontrado en Application Gateway: app-gtw-dr (Resource Group: rg-dr)
+🔍 Searching for endpoint 'api.mydomain.com' in all Application Gateways of the tenant...
+
+📦 Checking subscription: xxxxxxxx (xxxxxxxxxxxxxxxxxxx)
+📦 Checking subscription: xxxxxxxx (xxxxxxxxxxxxxxxxxxx)
+📦 Checking subscription: xxxxxxxxxxxxxxxxxxx (xxxxxxxxxxxxxxxxxxx)
+✅ Possible match in Listener of App GW: appgw-example-dpt
+   - Subscription: xxxxxxxxxxxxxxxxxxx
+   - Resource Group: xxxxxxxxxxxxxxxxxxx
+   - Listener Name: xxxxxxxxxxxxxxxxxxx
+   - Hostname: api.mydomain.com
+   - 🔗 Azure Portal: https://portal.azure.com/#@/resource/subscriptions/xxxxxxxxxxxxxxxxxxx/resourceGroups/xxxxxxxxxxxxxxxxxxx/providers/Microsoft.Network/applicationGateways/appgw-example-dpt
+
+................................
+
+🔎 Enter the endpoint to search (e.g., /myapi or api.mydomain.com): example.notfound.com
+
+🔍 Searching for endpoint 'example.notfound.com' in all Application Gateways of the tenant...
+
+📦 Checking subscription: xxxxxxxx (xxxxxxxxxxxxxxxxxxx)
+📦 Checking subscription: xxxxxxxxxxxxxxxxxxx (xxxxxxxxxxxxxxxxxxx)
+📦 Checking subscription: xxxxxxxx (xxxxxxxxxxxxxxxxxxx)
+❌ Endpoint not found in any Application Gateway of the tenant.
