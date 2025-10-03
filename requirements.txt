@@ -1,7 +1,7 @@
 azure-identity
 azure-mgmt-network
 azure-mgmt-resource
-
+setuptools>=78.1.1
 # Development and CI tools
 pytest
 pytest-cov
