@@ -135,8 +135,6 @@ flowchart TD
 
 This flowchart illustrates how the script prompts for an endpoint, iterates all subscriptions and Application Gateways, searches for the endpoint in Path Maps, Listeners, and Rules, prints results if found, and notifies if not found anywhere.
 
-This flowchart illustrates a process where, after retrieving the list of subscriptions and alerts, the script checks for relevant alerts. If there are relevant alerts, it converts the data to Excel and sends an email with the file. If not, it sends an email without the Excel attachment.
-
 ---
 
 ## Example: Use as a Module
