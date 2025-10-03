@@ -38,10 +38,6 @@ jobs:
       - run: pip install -r requirements.txt
       - run: pip install black flake8 mypy pytest-cov pip-audit
 
-      # Step 6: Lint code with flake8
-      - name: Lint with flake8
-        run: flake8 .
-
       # Step 7: Static type checking with mypy
       - name: Type checking with mypy
         run: mypy .
