@@ -1,5 +1,5 @@
 # Runtime dependencies (latest as of 2025-10)
-azure-identity==1.16.0
+azure-identity==1.16.1
 azure-mgmt-network==25.1.0
 azure-mgmt-resource==23.1.0
 setuptools==78.1.1
