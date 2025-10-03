@@ -67,23 +67,31 @@ You will be prompted to enter the endpoint to search (e.g., `/myapi` or `api.myd
 #### Example Output
 
 ```
-🔎 Enter the endpoint to search (e.g., /myapi or api.mydomain.com): ejemplo.com
+🔎 Enter the endpoint to search (e.g., /myapi or api.mydomain.com): api.mydomain.com
 
-🔍 Searching for endpoint 'ejemplo.com' in all Application Gateways of the tenant...
+🔍 Searching for endpoint 'api.mydomain.com' in all Application Gateways of the tenant...
 
-📦 Checking subscription: Example Subscription (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)
-✅ Found in App GW: appgw-prod
-	 - Subscription: Example Subscription
-	 - Resource Group: rg-prod
-	 - Path Map: ...
-	 - Rule: ...
-	 - Path: ...
-	 - 🔗 Azure Portal: https://portal.azure.com/#@/resource/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/rg-prod/providers/Microsoft.Network/applicationGateways/appgw-prod
+📦 Checking subscription: xxxxxxxx (xxxxxxxxxxxxxxxxxxx)
+📦 Checking subscription: xxxxxxxx (xxxxxxxxxxxxxxxxxxx)
+📦 Checking subscription: xxxxxxxxxxxxxxxxxxx (xxxxxxxxxxxxxxxxxxx)
+✅ Possible match in Listener of App GW: appgw-example-dpt
+   - Subscription: xxxxxxxxxxxxxxxxxxx
+   - Resource Group: xxxxxxxxxxxxxxxxxxx
+   - Listener Name: xxxxxxxxxxxxxxxxxxx
+   - Hostname: api.mydomain.com
+   - 🔗 Azure Portal: https://portal.azure.com/#@/resource/subscriptions/xxxxxxxxxxxxxxxxxxx/resourceGroups/xxxxxxxxxxxxxxxxxxx/providers/Microsoft.Network/applicationGateways/appgw-example-dpt
 ```
 
 If the endpoint is not found, you will see:
 
 ```
+🔎 Enter the endpoint to search (e.g., /myapi or api.mydomain.com): example.notfound.com
+
+🔍 Searching for endpoint 'example.notfound.com' in all Application Gateways of the tenant...
+
+📦 Checking subscription: xxxxxxxx (xxxxxxxxxxxxxxxxxxx)
+📦 Checking subscription: xxxxxxxxxxxxxxxxxxx (xxxxxxxxxxxxxxxxxxx)
+📦 Checking subscription: xxxxxxxx (xxxxxxxxxxxxxxxxxxx)
 ❌ Endpoint not found in any Application Gateway of the tenant.
 ```
 
@@ -94,19 +102,38 @@ If the endpoint is not found, you will see:
 
 ## Workflow
 
-Below is a high-level workflow of a typical Azure resource health alerting and reporting process, which you can adapt for your own automation or monitoring scripts:
+
+Below is a high-level workflow of how **endpointsearch** works to locate an endpoint across all Azure Application Gateways in your tenant:
 
 ```mermaid
 flowchart TD
-	Start(Start) --> GetSubscriptionList(Get subscription list)
-	GetSubscriptionList --> GetAlerts(Get alerts from Azure Resource Health API)
-	GetAlerts --> RelevantAlerts(Relevant Alerts)
-	RelevantAlerts -- Yes --> ConvertData(Convert data to Excel)
-	ConvertData --> SendEmailWithExcel(Send email with excel)
-	SendEmailWithExcel --> End(End)
-	RelevantAlerts -- No --> SendEmailWithoutExcel(Send email without excel)
-	SendEmailWithoutExcel --> End
+	Start([Start]) --> Prompt["Prompt user for endpoint to search"]
+	Prompt --> ListSubs["List all Azure subscriptions"]
+	ListSubs --> ForEachSub["For each subscription"]
+	ForEachSub --> ListAppGWs["List all Application Gateways"]
+	ListAppGWs --> ForEachGW["For each Application Gateway"]
+	ForEachGW --> SearchPathMaps["Search Path Maps for endpoint"]
+	ForEachGW --> SearchListeners["Search HTTP Listeners for endpoint"]
+	ForEachGW --> SearchRules["Search Request Routing Rules for endpoint"]
+	SearchPathMaps --> FoundCheck1{Found?}
+	SearchListeners --> FoundCheck2{Found?}
+	SearchRules --> FoundCheck3{Found?}
+	FoundCheck1 -- Yes --> PrintResult["Print details and Azure Portal link"]
+	FoundCheck2 -- Yes --> PrintResult
+	FoundCheck3 -- Yes --> PrintResult
+	FoundCheck1 -- No --> NextGW["Continue"]
+	FoundCheck2 -- No --> NextGW
+	FoundCheck3 -- No --> NextGW
+	NextGW --> ForEachGW
+	PrintResult --> ContinueSearch["Continue searching other gateways"]
+	ContinueSearch --> ForEachGW
+	ForEachGW -->|All checked| EndCheck["Any matches found?"]
+	EndCheck -- No --> NotFound["Print 'Endpoint not found' message"]
+	EndCheck -- Yes --> End([End])
+	NotFound --> End
 ```
+
+This flowchart illustrates how the script prompts for an endpoint, iterates all subscriptions and Application Gateways, searches for the endpoint in Path Maps, Listeners, and Rules, prints results if found, and notifies if not found anywhere.
 
 This flowchart illustrates a process where, after retrieving the list of subscriptions and alerts, the script checks for relevant alerts. If there are relevant alerts, it converts the data to Excel and sends an email with the file. If not, it sends an email without the Excel attachment.
 
