@@ -1,12 +1,16 @@
-"""Ejemplo de uso no interactivo del módulo.
-
-Muestra cómo importar la función `search_hostname`.
 """
-from azure_gtw_hostname_checker import azure_gtw_checker as checker  # adjust path if running as package
-# En este repo el script está en la raiz, así que this example assumes it's importable.
-# Llamada de ejemplo (requiere credenciales y subscription):
-# credential = checker.get_credentials()
-# found = checker.search_hostname('mi-subscription-id', 'ejemplo.com', credential=credential)
-# print(found)
+Example usage of endpointSearch.py as a module.
 
-print('Este ejemplo muestra la forma de usar search_hostname desde código. Modifícalo según tu entorno.')
+This script demonstrates how to import and use the main function programmatically.
+Requires Azure CLI authentication.
+"""
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from endpointSearch import get_app_gateways_with_endpoint_all_subs
+
+if __name__ == "__main__":
+    # Example call (will prompt for Azure authentication if not already logged in)
+    get_app_gateways_with_endpoint_all_subs("/myapi")
+    print("This example shows how to use get_app_gateways_with_endpoint_all_subs from code. Modify as needed for your environment.")
